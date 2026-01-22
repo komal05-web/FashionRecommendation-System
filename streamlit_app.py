@@ -67,7 +67,7 @@ def build_model(dataset_path: str, sample_size=5000):
     # Load dataset with error handling
     try:
         df = pd.read_csv(dataset_path)
-        st.write(f"Loaded dataset with {len(df)} rows.")  # Debug: Remove in production
+        
     except Exception as e:
         st.error(f"Error loading dataset: {e}")
         return None, None, None, None
@@ -81,7 +81,7 @@ def build_model(dataset_path: str, sample_size=5000):
     # Sample dataset to reduce size and memory usage
     if len(df) > sample_size:
         df = df.sample(sample_size, random_state=42).reset_index(drop=True)
-        st.write(f"Sampled dataset to {len(df)} rows for performance.")  # Debug
+        st.write(f"Sampled dataset to {len(df)} rows for performance.")  
     
     # Apply preprocessing
     df["description"] = df["description"].apply(formatting_description)
@@ -103,11 +103,11 @@ def build_model(dataset_path: str, sample_size=5000):
     )
     
     # TF-IDF vectorization (optimized for memory)
-    tfidf = TfidfVectorizer(max_features=1500)  # Further reduced for speed
+    tfidf = TfidfVectorizer(max_features=1500) 
     tfidf_matrix = tfidf.fit_transform(df["tag"])
     similarity = cosine_similarity(tfidf_matrix, tfidf_matrix)
     
-    st.write("Model built successfully.")  # Debug
+    
     return df, similarity, tfidf, tfidf_matrix
 
 # ---------- Recommendation Function ----------
