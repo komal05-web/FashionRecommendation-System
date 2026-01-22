@@ -81,7 +81,7 @@ def build_model(dataset_path: str, sample_size=5000):
     # Sample dataset to reduce size and memory usage
     if len(df) > sample_size:
         df = df.sample(sample_size, random_state=42).reset_index(drop=True)
-        st.write(f"Sampled dataset to {len(df)} rows for performance.")  
+        
     
     # Apply preprocessing
     df["description"] = df["description"].apply(formatting_description)
