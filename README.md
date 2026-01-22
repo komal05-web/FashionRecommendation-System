@@ -49,7 +49,7 @@ Fashion-Recommendation-System/
 ## ⚙️ Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/Fashion-Recommendation-System.git
+   git clone https://github.com/komal05-web/Fashion-Recommendation-System.git
    cd Fashion-Recommendation-System
 
 2. Create and activate a virtual environment:   
@@ -84,6 +84,8 @@ All dependencies are listed in requirements.txt.
 Install them with:
 
 pip install -r requirements.txt
+
+## 📌URL:-https://fashionrecommendation-system-sqdnvrz7y69gddk3gaaper.streamlit.app/
 
 ## 👩‍💻 Author
 Komal Pandey
