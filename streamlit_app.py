@@ -58,7 +58,7 @@ def formatting_price(value):
 # ---------- Build Model ----------
 
 @st.cache_resource
-def build_model(dataset_path: str):
+def build_model(dataset_path: str, sample_size=5000):
     # Check if file exists
     if not os.path.exists(dataset_path):
         st.error(f"Dataset file '{dataset_path}' not found. Please ensure it's in the repo.")
@@ -67,6 +67,7 @@ def build_model(dataset_path: str):
     # Load dataset with error handling
     try:
         df = pd.read_csv(dataset_path)
+        st.write(f"Loaded dataset with {len(df)} rows.")  # Debug: Remove in production
     except Exception as e:
         st.error(f"Error loading dataset: {e}")
         return None, None, None, None
@@ -76,6 +77,11 @@ def build_model(dataset_path: str):
     if not all(col in df.columns for col in required_cols):
         st.error("Missing required columns in dataset. Required: " + ", ".join(required_cols))
         return None, None, None, None
+    
+    # Sample dataset to reduce size and memory usage
+    if len(df) > sample_size:
+        df = df.sample(sample_size, random_state=42).reset_index(drop=True)
+        st.write(f"Sampled dataset to {len(df)} rows for performance.")  # Debug
     
     # Apply preprocessing
     df["description"] = df["description"].apply(formatting_description)
@@ -97,10 +103,11 @@ def build_model(dataset_path: str):
     )
     
     # TF-IDF vectorization (optimized for memory)
-    tfidf = TfidfVectorizer(max_features=2000)  # Reduced from 5000 to save resources
+    tfidf = TfidfVectorizer(max_features=1500)  # Further reduced for speed
     tfidf_matrix = tfidf.fit_transform(df["tag"])
     similarity = cosine_similarity(tfidf_matrix, tfidf_matrix)
     
+    st.write("Model built successfully.")  # Debug
     return df, similarity, tfidf, tfidf_matrix
 
 # ---------- Recommendation Function ----------
@@ -128,7 +135,7 @@ st.title("👗 Fashion Recommendation System")
 
 # Load dataset + model with spinner
 with st.spinner("Building recommendation model... This may take a moment."):
-    df, similarity, tfidf, tfidf_matrix = build_model("Fashion Dataset.csv")
+    df, similarity, tfidf, tfidf_matrix = build_model("Fashion Dataset.csv", sample_size=5000)
 
 # Check if model loaded successfully
 if df is None:
