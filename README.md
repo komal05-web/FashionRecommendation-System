@@ -67,7 +67,9 @@ Fashion-Recommendation-System/
 
 Run the Streamlit app:
 
+```bash
 streamlit run fashion_app.py
+```
 
 Open the provided local URL (usually http://localhost:8501) in your browser.- Enter a query in the search bar (e.g., “blue kurta”).
 - View recommended products with images and links.
@@ -83,7 +85,9 @@ All dependencies are listed in requirements.txt.
 
 Install them with:
 
+```bash
 pip install -r requirements.txt
+```
 
 ## 📌URL:-https://fashionrecommendation-system-sqdnvrz7y69gddk3gaaper.streamlit.app/
 
